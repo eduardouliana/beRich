@@ -1,2 +1,6 @@
 # beRich
-Let's be rich uhuu
+
+```
+cd /source
+python main.py
+```
