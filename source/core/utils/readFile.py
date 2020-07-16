@@ -2,4 +2,6 @@ import json
 
 def read(path):
     file = open(path, "r")
-    return json.load(file)
+    myList = json.load(file)
+
+    return myList
