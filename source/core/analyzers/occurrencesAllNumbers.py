@@ -1,5 +1,3 @@
-import operator
-
 def analyze(myList):
     
     dic = {}
