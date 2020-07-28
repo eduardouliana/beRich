@@ -1,2 +1,2 @@
-source/core/analyzers/__pycache__/*
-source/core/utils/__pycache__/*.*
+__pycache__
+database.db
