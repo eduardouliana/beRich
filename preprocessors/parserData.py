@@ -28,6 +28,8 @@ def __extractSequences(numberList):
                 register(first, last)
             first = int(numberList[x])
             last = int(numberList[x])
+            if (x == len(numberList) - 1):
+                register(first, last)
 
     return sequences
 
