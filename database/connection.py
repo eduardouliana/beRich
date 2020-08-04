@@ -8,7 +8,8 @@ def __prepareDB(conn):
             id            NUMERIC (10)  PRIMARY KEY NOT NULL,
             numbers       VARCHAR (100),
             sorted_at     DATETIME,
-            sequences     VARCHAR(250)
+            sequences     VARCHAR(250),
+            groups        VARCHAR(250)
         );''')
 
 def connectDB(path):
