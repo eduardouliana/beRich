@@ -18,7 +18,7 @@ def __extractSequences(numberList):
     last = int(numberList[0])
     sequences = []
 
-    for x in range(len(numberList)):
+    for x in range(len(numberList)):        
         if (last + 1) == int(numberList[x]):
             last = int(numberList[x])
             if x == len(numberList) - 1:
@@ -33,12 +33,23 @@ def __extractSequences(numberList):
 
     return sequences
 
-def __insertSequences(draws, conn):
+def __extractGroups(sequences):
+
+    group  = []
+    for sequence in sequences:
+        if len(sequence) == 1:
+            group.append(1)
+        else:
+            group.append(sequence[1] - sequence[0] + 1)
+    return group
+
+def __insertSequencesAndGroups(draws, conn):
     for draw, numbers in draws.items():
         sequences = __extractSequences(numbers)
-        conn.execute("UPDATE LOTOFACIL SET SEQUENCES = '" + str(sequences) + "' where id = " + str(draw))
+        groups = __extractGroups(sequences)
+        conn.execute("UPDATE LOTOFACIL SET SEQUENCES = '" + str(sequences) + "', GROUPS = '" + str(groups) + "' where id = " + str(draw))
     conn.commit()
 
 def parser(draws, conn):
     __insertData(draws, conn)
-    __insertSequences(draws, conn)
+    __insertSequencesAndGroups(draws, conn)
