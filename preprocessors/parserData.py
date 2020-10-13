@@ -47,9 +47,22 @@ def __insertSequencesAndGroups(draws, conn):
     for draw, numbers in draws.items():
         sequences = __extractSequences(numbers)
         groups = __extractGroups(sequences)
-        conn.execute("UPDATE LOTOFACIL SET SEQUENCES = '" + str(sequences) + "', GROUPS = '" + str(groups) + "' where id = " + str(draw))
+        conn.execute("UPDATE LOTOFACIL SET SEQUENCES = '" + str(sequences) + "', GROUPS = '" + str(groups) + "' WHERE ID = " + str(draw))
+    conn.commit()
+
+def __insertParity(draws, conn):
+    for draw, numbers in draws.items():
+        evenNumbers = 0
+        oddNumbers = 0        
+        for number in numbers:
+            if number %2 == 0:
+                evenNumbers+=1
+            else:
+                oddNumbers+=1
+        conn.execute("UPDATE LOTOFACIL SET EVEN_NUMBERS = " + str(evenNumbers) + ", ODD_NUMBERS = " + str(oddNumbers) + " WHERE ID = " + str(draw))
     conn.commit()
 
 def parser(draws, conn):
     __insertData(draws, conn)
     __insertSequencesAndGroups(draws, conn)
+    __insertParity(draws, conn)
