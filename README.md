@@ -1,6 +1,8 @@
 # beRich
 
+## Get start
 ```
-cd /source
+python3 -m venv venv
+venv\Scripts\activate.bat
 python main.py
 ```
