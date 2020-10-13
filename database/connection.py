@@ -5,11 +5,13 @@ def __prepareDB(conn):
     cursor.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'LOTOFACIL';")
     if (len(cursor.fetchall()) == 0):
         conn.execute('''CREATE TABLE LOTOFACIL (
-            id            NUMERIC (10)  PRIMARY KEY NOT NULL,
-            numbers       VARCHAR (100),
+            id            NUMERIC(10)  PRIMARY KEY NOT NULL,
+            numbers       VARCHAR(100),
             sorted_at     DATETIME,
             sequences     VARCHAR(250),
-            groups        VARCHAR(250)
+            groups        VARCHAR(250),
+            even_numbers  NUMERIC(2),
+            odd_numbers   NUMERIC(2)            
         );''')
 
 def connectDB(path):
