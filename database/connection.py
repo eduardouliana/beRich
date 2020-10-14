@@ -14,6 +14,14 @@ def __prepareDB(conn):
             odd_numbers   NUMERIC(2)            
         );''')
 
+def __createTableDrawn(conn):        
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'LOTOFACIL';")
+    # if (len(cursor.fetchall()) == 0):
+    conn.execute('''CREATE TABLE NUMBERS (
+        number         NUMERIC(2) PRIMARY KEY NOT NULL,
+        quantity_drawn NUMERIC(9)
+    );''')
 def connectDB(path):
     conn = sqlite3.connect(path)
     __prepareDB(conn)
