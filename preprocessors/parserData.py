@@ -1,6 +1,10 @@
 def __insertData(draws, conn):
+    query = 'INSERT INTO LOTOFACIL (ID, NUMBERS) VALUES'
     for draw, numbers in draws.items():
-        conn.execute("INSERT INTO LOTOFACIL (ID, NUMBERS) VALUES (" + str(draw) + ", '" + str(numbers) + "') ON CONFLICT (ID) DO NOTHING")
+        query += " (" + str(draw) + ", '" + str(numbers) + "'),"
+    query = query[:-1] # More efficient to remove the last comma, instead of comparing whether it is the last one at each interaction
+    query += " ON CONFLICT (ID) DO NOTHING"
+    conn.execute(query)
     conn.commit()
 
 def __toList(str):
