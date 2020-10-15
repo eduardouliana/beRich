@@ -161,7 +161,9 @@ def parser(draws, conn):
     lap = time.time()
     print("Number with single combinations", lap - ini)
 
-    for n in range(1,3):
+    for n in range(1,6):
         __generateCombinations(draws,conn, n)
+        lap = time.time()
+        print("Occurences of combinations", lap - ini)    
     lap = time.time()
-    print("Occurences of combinations", lap - ini)    
+    print("End of occurences of combinations", lap - ini)        
