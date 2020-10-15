@@ -11,3 +11,10 @@ python3 -m venv venv
 venv\Scripts\activate.bat
 python main.py
 ```
+
+If you don't want to use venv, just run this:
+```
+python main.py
+```
+
+## 
