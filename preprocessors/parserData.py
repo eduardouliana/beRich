@@ -142,28 +142,29 @@ def parser(draws, conn):
     print(ini)
 
     __insertData(draws, conn)
-    lap = time.time()
-    print("Insert data", lap - ini)
+    lap1 = time.time()
+    print("Insert data", lap1 - ini)
 
     __insertSequencesAndGroups(draws, conn)
-    lap = time.time()
-    print("Sequences", lap - ini)
+    lap2 = time.time()
+    print("Sequences", lap2 - lap1)
 
     __insertParity(draws, conn)
-    lap = time.time()
-    print("Parity", lap - ini)
+    lap3 = time.time()
+    print("Parity", lap3 - lap2)
 
     __insertQuantityOfNumbers(draws, conn)
-    lap = time.time()
-    print("Quantity of numbers", lap - ini)
+    lap4 = time.time()
+    print("Quantity of numbers", lap4 - lap3)
 
     __feedNumbersWithSingleCombination(draws, conn)
-    lap = time.time()
-    print("Number with single combinations", lap - ini)
+    lap5 = time.time()
+    print("Number with single combinations", lap5 - lap4)
 
     for n in range(1,6):
+        lapx = time.time() 
         __generateCombinations(draws,conn, n)
-        lap = time.time()
-        print("Occurences of combinations", lap - ini)    
-    lap = time.time()
-    print("End of occurences of combinations", lap - ini)        
+        lapy = time.time()
+        print("Occurences of combinations", lapy - lapx)    
+    lap6 = time.time()
+    print("End of occurences of combinations", lap6 - lap5)        
