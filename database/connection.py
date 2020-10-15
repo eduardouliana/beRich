@@ -20,12 +20,21 @@ def __createTableDrawn(conn):
     # if (len(cursor.fetchall()) == 0):
     conn.execute('''CREATE TABLE NUMBERS (
         number         NUMERIC(2) PRIMARY KEY NOT NULL,
+        combinations   VARCHAR(512),
         quantity_drawn NUMERIC(9)
+    );''')
+    
+def __createTableCombinations(conn):
+    conn.execute('''CREATE TABLE COMBINATIONS (
+        combination  VARCHAR(200),
+        occurrences  NUMERIC(9),
+        quantity     NUMERIC(2)
     );''')
 
 def __prepareDB(conn):
     __createTableLotofacil(conn)
     __createTableDrawn(conn)
+    __createTableCombinations(conn)
 
 def connectDB(path):
     conn = sqlite3.connect(path)
