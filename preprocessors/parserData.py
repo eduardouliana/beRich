@@ -1,3 +1,18 @@
+import pprint
+import time
+
+def combinationUtil(arr, data, start, end, index, r, result): 
+    if (index == r): 
+        result.append(data[:])
+        return; 
+
+    i = start;  
+    while(i <= end and end - i + 1 >= r - index): 
+        data[index] = arr[i]; 
+        combinationUtil(arr, data, i + 1, end, index + 1, r, result); 
+        i += 1;
+
+
 def __insertData(draws, conn):
     query = 'INSERT INTO LOTOFACIL (ID, NUMBERS) VALUES'
     for draw, numbers in draws.items():
@@ -66,7 +81,87 @@ def __insertParity(draws, conn):
         conn.execute("UPDATE LOTOFACIL SET EVEN_NUMBERS = " + str(evenNumbers) + ", ODD_NUMBERS = " + str(oddNumbers) + " WHERE ID = " + str(draw))
     conn.commit()
 
+def __insertQuantityOfNumbers(draws, conn):
+    dic = {}
+
+    for draw, numbers in draws.items():
+        for number in numbers:
+            dic[number] = dic.get(number, 0) + 1
+    
+    #{1: 1277, 2: 1274, 3: 1255, 5: 1235, 7: 1203, 8: 1169, 11: 1260, 12: 1220, 14: 1239, 17: 1225, 19: 1235, 21: 1217, 22: 1238, 23: 1237, 4: 1251, 9: 1211, 13: 1272, 15: 1220, 16: 1183, 18: 1227, 24: 1266, 
+    #6: 1193, 25: 1245, 10: 1233, 20: 1225}
+
+    query = "INSERT INTO NUMBERS (number, quantity_drawn) VALUES"
+    for key, value in dic.items():
+        query += " (" + str(key) + ", " + str(value) + "),"
+    query = query[:-1]
+    conn.execute(query)
+    conn.commit()
+
+def __feedNumbersWithSingleCombination(draws, conn):
+    dic = {}       
+    for draw, numbers in draws.items():
+        for number in numbers:
+            dic.setdefault(number, {})
+            for validateNumber in numbers:
+                if validateNumber == number:
+                    continue
+                dic[number][validateNumber] = dic[number].get(validateNumber, 0) + 1                 
+    
+    query = "UPDATE NUMBERS SET combinations = \"{combinations}\" where number = {number}"
+    for key, value in dic.items():
+        conn.execute(query.format(number=key, combinations=value))
+    conn.commit()
+
+# 1 - gerar todas as combinações de 1-25 com a quantidade de numeros informados
+def __generateCombinations(draws, conn, quantity_numbers):
+    ary = list(range(1, 25))
+    n = len(ary)
+    data = [0]*quantity_numbers; 
+    result = []
+
+    combinationUtil(ary, data, 0, n - 1, 0, quantity_numbers, result); 
+    
+    for combination in result:
+       ocurrences = __findCombinations(draws, combination) 
+       query = "INSERT INTO COMBINATIONS (COMBINATION, OCCURRENCES, QUANTITY) VALUES (\"{combination}\", {ocurrences}, {quantity})"
+       conn.execute(query.format(combination=combination, ocurrences=ocurrences, quantity=quantity_numbers))
+    conn.commit();       
+
+# 2 - procurar quantas vezes a combinação aparceu nos resultados 
+def __findCombinations(draws, combination):
+    count = 0
+    for draw, numbers in draws.items(): # cada linha
+        set_numbers = set(numbers)
+        if set(combination).issubset(set_numbers):
+            count += 1;    
+    return count
+
 def parser(draws, conn):
+    ini = time.time()
+    print(ini)
+
     __insertData(draws, conn)
+    lap = time.time()
+    print("Insert data", lap - ini)
+
     __insertSequencesAndGroups(draws, conn)
+    lap = time.time()
+    print("Sequences", lap - ini)
+
     __insertParity(draws, conn)
+    lap = time.time()
+    print("Parity", lap - ini)
+
+    __insertQuantityOfNumbers(draws, conn)
+    lap = time.time()
+    print("Quantity of numbers", lap - ini)
+
+    __feedNumbersWithSingleCombination(draws, conn)
+    lap = time.time()
+    print("Number with single combinations", lap - ini)
+
+    for n in range(1,3):
+        __generateCombinations(draws,conn, n)
+    lap = time.time()
+    print("Occurences of combinations", lap - ini)    
