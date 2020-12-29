@@ -1,5 +1,6 @@
 import pprint
 import time
+from itertools import combinations
 
 def combinationUtil(arr, data, start, end, index, r, result): 
     if (index == r): 
@@ -120,7 +121,8 @@ def __generateCombinations(draws, conn, quantity_numbers):
     data = [0]*quantity_numbers; 
     result = []
 
-    combinationUtil(ary, data, 0, n - 1, 0, quantity_numbers, result); 
+    #combinationUtil(ary, data, 0, n - 1, 0, quantity_numbers, result); 
+    result = combinations(ary, quantity_numbers)
     
     for combination in result:
        ocurrences = __findCombinations(draws, combination) 
