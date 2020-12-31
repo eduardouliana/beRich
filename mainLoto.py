@@ -117,7 +117,7 @@ def getQuantityOfNumbersLastTenDraws2019(draws):
     return orderDic(dic)     
 
 def main():    
-    allDraws = readFile.read("./resources/mega.json")
+    allDraws = readFile.read("./resources/allDraws.json")
 
     print('Todos:')
     print(getQuantityOfNumbers(allDraws))
