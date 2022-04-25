@@ -20,6 +20,3 @@ f2 = open("resources/mega2.json", "w")
 
 for x in f:
   f2.write(adjust(x))
-#s = s.replace('Antonio', 'dudu')
-
-#print(s)
