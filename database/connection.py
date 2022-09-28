@@ -1,11 +1,10 @@
 import sqlite3
 
-
 def _create_table_lotofacil(conn):
   conn.execute('''CREATE TABLE LOTOFACIL (
     id            NUMERIC(10) PRIMARY KEY NOT NULL,
     numbers       VARCHAR(100),
-    sorted_at     DATETIME,
+    sorted_id     NUMERIC(5),
     sequences     VARCHAR(250),
     groups        VARCHAR(250),
     even_numbers  NUMERIC(2),
@@ -26,14 +25,13 @@ def _create_table_combinations(conn):
     quantity     NUMERIC(2)
   );''')
 
-def _prepare_db(conn):
+def prepare(conn):
   _create_table_lotofacil(conn)
   _create_table_numbers(conn)
   _create_table_combinations(conn)
 
 def connect(path):
   conn = sqlite3.connect(path)
-  _prepare_db(conn)
   return conn
 
 def disconnect(path):
