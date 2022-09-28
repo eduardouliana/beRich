@@ -1,7 +1,6 @@
 import json
 
 def read(path):
-    file = open(path, "r")
-    myList = json.load(file)
+  file_data = open(path, "r")
 
-    return myList
+  return json.load(file_data)
