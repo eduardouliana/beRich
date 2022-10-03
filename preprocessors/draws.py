@@ -42,12 +42,24 @@ def extract_groups(sequences):
       group.append(sequence[1] - sequence[0] + 1)
   return group
 
+def extract_parities(numbers):
+  evens = 0
+  odds = 0
+  for number in numbers:
+    if number %2 == 0:
+      evens+=1
+    else:
+      odds+=1
+
+  return f'Pares: {evens} - Ímpares: {odds}'
+
 class Draw():
   def __init__(self, numbers):
     self.numbers = numbers
     self.sorted_id = None
     self.sequences = extract_sequences(numbers)
     self.groups = extract_groups(self.sequences)
+    self.parities = extract_parities(numbers)
 
   def set_sorted(self, draw_id):
     self.sorted_id = draw_id
@@ -71,6 +83,7 @@ class Draw():
     print(f' {self.as_string()} {is_sorted}  ')
     print(f' Sequencias: {self.sequences}')
     print(f' Grupos: {self.groups}')
+    print(f' Paridade: {self.parities}')
 
 class Draws():
   def __init__(self, draw_lenght = DEFAULT_DRAW_LENGHT):
