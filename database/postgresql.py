@@ -9,9 +9,10 @@ class PostgreSQL:
   def __init__(self):
     self.connection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
 
-  def insert_possibilities(self, id, value):
+  def insert_possibilities(self, id, numbers):
     cur = self.connection.cursor()
-    cur.execute("insert into possibilidades_15 (id, numeros) values (%s, %s)", (id, value))
+    cur.execute("insert into sorteios_possiveis (id, numeros) values (%s, %s)", (id, numbers))
+    self.connection.commit()
     self.connection.commit()
 
   def __del__(self):
