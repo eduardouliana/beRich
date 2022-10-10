@@ -13,6 +13,10 @@ class PostgreSQL:
     cur = self.connection.cursor()
     cur.execute("insert into sorteios_possiveis (id, numeros) values (%s, %s)", (id, numbers))
     self.connection.commit()
+
+  def set_sorted(self, id_sorteio, id):
+    cur = self.connection.cursor()
+    cur.execute("update sorteios_possiveis set id_sorteio = %s where id = %s", (id_sorteio, id))
     self.connection.commit()
 
   def __del__(self):
